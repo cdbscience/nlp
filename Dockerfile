@@ -35,4 +35,4 @@ RUN chmod +x /app/start.sh
 EXPOSE 8000
 
 # Set the entry point
-ENTRYPOINT ["/app/start.sh"]
+CMD  ["sh","/app/start.sh"]
