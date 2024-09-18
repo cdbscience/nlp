@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levenshtein Distance</title>
+    <link rel="stylesheet" href="{% static 'style/global.css' %}">
+    <style>
+        section {
+            padding: 20px 30px;
+        }
+
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        .green {
+            text-transform: uppercase;
+            font-weight: 600;
+            background-color: #8affc6;
+        }
+
+        th {
+            background-color: #8affc6;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div id="logo">Natural Language Processing</div>
+        <div id="menu" class="menu">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Stemming</a></li>
+                <li><a href="/levenshtein">Levenshtein</a></li>
+                <li><a href="#">Text Similarity</a></li>
+            </ul>
+        </div>
+    </header>
+    <section>
+        <h1>See the Levenshtein Minimum Edit Distance</h1>
+        <form method="post">
+            {% csrf_token %}
+            <input id="word1" name="word1" type="text" placeholder="First word" required>
+            <input id="word2" name="word2" type="text" placeholder="Second word" required>
+            <button class="get-text" type="submit">Calculate</button>
+        </form>
+    </section>
+
+    {% if result %}
+    <section>
+        <h2>Results</h2>
+        <p><strong>Levenshtein Distance:</strong> {{ result.distance }}</p>
+        <h3>Distance Matrix</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    {% for char in result.word2 %}
+                    <th>{{ char }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in result.matrix %}
+                <tr>
+                    {% for cell in row %}
+                    <td class="{{ cell.color }}">{{ cell.value }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    {% endif %}
+
+    <footer>
+        <p class="copyright">© 2024 <a href="https://github.com/cdbscience">CDB Science</a>. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

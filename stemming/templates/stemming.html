@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stemming</title>
+
+    <link rel="stylesheet" href="{% static 'style/global.css' %}">
+
+    <style>
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            gap: 15px;
+            padding: 20px 30px;
+            width: 100%;
+            height: 50vh;
+        }
+
+        .supertext {
+            width: 90%;
+            height: 100%;
+        }
+
+        .col {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 100%;
+            height: 100%;
+        }
+
+        section {
+            margin: 30px 0;
+            max-width: 92vw;
+        }
+
+        .presentation {
+            background-color: #f9f9f9;
+            padding: 20px 50px;
+            margin: 20px 0 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div id="logo">Natural Language Processing</div>
+        <div id="menu" class="menu">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Stemming</a></li>
+                <li><a href="/levenshtein">Levenshtein</a></li>
+                <li><a href="#">Text Similarity</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section>
+        <div class="content">
+            <div class="col">
+                <h1>Write a sentence</h1>
+                <textarea id="sentence" class="supertext"
+                    placeholder="My friends, numbers, in their utter simplicity, dazzle even the wisest of men.” Even divisions that seem to us perfect are, at times, beset with error. From the uncertainty of calculations comes the undeniable prestige of the mathematician. According to the terms of the agreement, the man will have to pay 26 dinars and not 24-1/2, as he at first thought “Even in. the final solution to the problem, there was a small difference that should not be taken lightly, the size of which I cannot express in numbers alone"></textarea>
+            </div>
+            <div class="col">
+                <h1>After stemming</h1>
+                <p style="margin: 0;" id="display">my friend , numb , in their ut simpl , dazzl ev the wisest of men. ”
+                    ev divid that seem
+                    to us perfect ar , at tim , beset with er . from the uncertainty of calc com the undeny prestig of
+                    the mathem . accord to the term of the agr , the man wil hav to pay 26 din and not 24-1/2 , as he at
+                    first thought “ ev in . the fin solv to the problem , ther was a smal diff that should not be tak
+                    light , the siz of which i can not express in numb alon</p>
+            </div>
+        </div>
+        <div class="center">
+            <button id="submit" class="get-text">Process text</button>
+        </div>
+    </section>
+
+    <section class="presentation">
+        <h1>Stemming</h1>
+        <p>
+            Stemming is the process of reducing words to their root or base form. The purpose of stemming is to remove
+            suffixes from words to create a uniform representation of the word for natural language processing tasks
+            such as information retrieval, search engines, and text analysis.
+        </p>
+        <p>
+            The most commonly used stemming algorithm is the Porter Stemmer, developed by Martin Porter in 1980.
+            The Porter Stemmer applies a set of rules to iteratively remove suffixes from words, making it highly
+            efficient
+            and widely used in search engines and NLP applications
+            (<a href="https://tartarus.org/martin/PorterStemmer/">Porter, 1980</a>).
+        </p>
+        <p>
+            Another well-known algorithm is the Lancaster Stemmer, also called the Paice-Husk Stemmer, developed by
+            Chris Paice and Gareth Husk. The Lancaster Stemmer is known for being more aggressive in reducing words to
+            their base forms compared to the Porter Stemmer. It can create more drastic changes, which sometimes leads
+            to
+            overstemming (<a href="https://www.researchgate.net/publication/221063585_An_Aggressive_Stemming_Algorithm">
+                Lancaster, 1990</a>).
+        </p>
+        <p>
+            Although stemming is a useful technique, it can sometimes lead to issues such as overstemming (where too
+            much
+            of the word is removed) or understemming (where not enough of the word is removed). This is where more
+            modern
+            techniques like lemmatization offer a more precise approach to word normalization.
+        </p>
+    </section>
+
+    <footer>
+        <p class="copyright">© 2024 <a href="https://github.com/cdbscience">CDB Science</a>. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('submit').addEventListener('click', function () {
+            const sentence = document.getElementById('sentence').value;
+
+            fetch('', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: new URLSearchParams({
+                    'sentence': sentence
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('display').textContent = data.result;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+
+</html>

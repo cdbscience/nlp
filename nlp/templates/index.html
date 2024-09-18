@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Language Processing</title>
+
+    <link rel="stylesheet" href="{% static 'style/global.css' %}">
+
+    <style>
+        /* Section Styling */
+        section {
+            padding: 40px 20px;
+            background-color: #fff;
+            margin: 20px auto;
+            max-width: 900px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #495057;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #343a40;
+            margin: 0;
+        }
+
+        .presentation {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px 30px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .presentation img {
+            height: 100%;
+            max-width: 50%;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .full {
+            max-width: 100% !important;
+        }
+
+        .text {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div id="logo">Natural Language Processing</div>
+        <div id="menu" class="menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="/stemming">Stemming</a></li>
+                <li><a href="/levenshtein">Levenshtein</a></li>
+                <li><a href="#">Text Similarity</a></li>
+            </ul>
+        </div>
+    </header>
+    <section class="presentation">
+        <img src="https://i.ibb.co/DzT0x9h/VHLVl-P4-YQiic-BSYAGTox9-A-1.png" alt="Robot">
+        <div class="text">
+            <h1>Natural Language Processing</h1>
+            <p>
+                Natural Language Processing (NLP) is a field of artificial intelligence that focuses on the interaction
+                between computers and humans through natural language. The goal of NLP is to enable computers to
+                understand, interpret, and generate human language in a way that is both valuable and meaningful.
+            </p>
+            <p>
+                NLP involves programming computers to enable them to process and analyze
+                human language. It encompasses a wide range of tasks, from simple ones like counting words in a text to
+                more complex ones such as generating responses to human questions or translating between languages.
+                Regardless of the complexity, any activity where a computer interacts with language through a program is
+                considered part of NLP.
+            </p>
+
+        </div>
+    </section>
+    <section class="full">
+        <h1>Introduction to Natural Language Processing (NLP)</h1>
+        <p>
+
+        </p>
+
+        <h2>History of NLP</h2>
+        <p>
+            The history of NLP can be traced back to the 1950s, with early work on machine translation and text analysis
+            by pioneers like Warren Weaver (1949) and Yehoshua Bar-Hillel (1953). In the early days, NLP research
+            focused
+            on symbolic approaches and rule-based systems
+            <a href="https://dl.acm.org/doi/10.5555/188490.188499">[Bar-Hillel, 1953]</a>. The advent of statistical
+            methods
+            in the 1990s marked a significant shift, leading to more data-driven approaches, as described by Brown et
+            al.
+            in their seminal work on statistical machine translation (1993) <a
+                href="https://www.aclweb.org/anthology/J93-2003/">[Brown et al., 1993]</a>.
+        </p>
+        <p>
+            In the 2000s, the rise of machine learning and deep learning further revolutionized NLP, leading to the
+            development
+            of sophisticated models such as word embeddings (Mikolov et al., 2013)
+            <a href="https://arxiv.org/abs/1301.3781">[Mikolov et al., 2013]</a> and neural networks for NLP
+            <a href="https://arxiv.org/abs/1409.0473">[Collobert et al., 2011]</a>. Today, NLP is an integral part of
+            many
+            applications, including search engines, chatbots, and virtual assistants.
+        </p>
+    </section>
+    <section>
+        <h1>References</h1>
+        <ul>
+            <li><a href="https://en.wikipedia.org/wiki/Natural_language_processing">Wikipedia</a></li>
+            <li><a href="https://www.ibm.com/topics/natural-language-processing">IBM</a></li>
+            <li><a href="https://www.geeksforgeeks.org/natural-language-processing-overview/">GeeksForGeeks</a></li>
+        </ul>
+    </section>
+    <footer>
+        <p class="copyright">© 2024 <a href="https://github.com/cdbscience">CDB Science</a>. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
