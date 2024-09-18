@@ -26,10 +26,10 @@ RUN python -m nltk.downloader punkt wordnet stopwords
 COPY . /app/
 
 # Copy the entry point script
-COPY entrypoint.sh /app/
+COPY start.sh /app/
 
 # Make the entry point script executable
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +x /app/start.sh
 
 # Expose port 8000 to the outside world
 EXPOSE 8000
