@@ -25,9 +25,14 @@ RUN python -m nltk.downloader punkt wordnet stopwords
 # Copy the Django application code
 COPY . /app/
 
+# Copy the entry point script
+COPY entrypoint.sh /app/
+
+# Make the entry point script executable
+RUN chmod +x /app/entrypoint.sh
+
 # Expose port 8000 to the outside world
 EXPOSE 8000
 
-
-# Run the Django development server
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+# Set the entry point
+ENTRYPOINT ["/app/entrypoint.sh"]
