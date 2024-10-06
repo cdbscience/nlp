@@ -22,5 +22,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("stemming/", include("stemming.urls")),
     path("levenshtein/", include("levenshtein.urls")),
+    path("cosine/", include("cosine.urls")),
     path('admin/', admin.site.urls),
 ]

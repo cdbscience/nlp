@@ -61,6 +61,7 @@ TEMPLATES = [
                 os.path.join(BASE_DIR, 'nlp/templates'),
                 os.path.join(BASE_DIR, 'stemming/templates'),
                 os.path.join(BASE_DIR, 'levenshtein/templates'),
+                os.path.join(BASE_DIR, 'cosine/templates'),
             ],
         'APP_DIRS': True,
         'OPTIONS': {
