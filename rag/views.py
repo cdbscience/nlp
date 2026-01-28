@@ -327,12 +327,20 @@ Pergunta: {query}"""
         try:
             prompt = self.custom_prompt(query, file_id)
             # print(f'Prompt gerado: {prompt}')
+            
             response = self.chat.invoke(prompt)
             
-            print(f'Resposta gerada: {response.content}')
+            if hasattr(response, "content"):
+                content = response.content
+            elif isinstance(response, str):
+                content = response
+            else:
+                content = str(response)
+
+            print(f"Resposta gerada: {content}")
             return {
                 "status": "success",
-                "response": response.content,
+                "response": content,
                 "query": query,
             }
             
