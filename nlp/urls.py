@@ -16,12 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
     path("stemming/", include("stemming.urls")),
     path("levenshtein/", include("levenshtein.urls")),
-    path("cosine/", include("cosine.urls")),
+    path("rag/", include("rag.urls")),
     path('admin/', admin.site.urls),
 ]
+
+# Servir media files em desenvolvimento
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

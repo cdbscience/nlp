@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'stemming',
+    'levenshtein',
+    'rag',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +64,7 @@ TEMPLATES = [
                 os.path.join(BASE_DIR, 'nlp/templates'),
                 os.path.join(BASE_DIR, 'stemming/templates'),
                 os.path.join(BASE_DIR, 'levenshtein/templates'),
-                os.path.join(BASE_DIR, 'cosine/templates'),
+                os.path.join(BASE_DIR, 'rag/templates'),
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -124,6 +127,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Media files (Upload files)
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # This includes the global static directory at the project level
