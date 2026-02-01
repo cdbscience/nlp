@@ -10,3 +10,7 @@ services:
       - .env
     ports:
       - "8000:8000"
+
+networks:
+  ghost_ghost_network:
+    external: true
