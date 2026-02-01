@@ -55,6 +55,12 @@ header {
     background-color: #495057;
 }
 
+#menu li a.active {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+
 ul {
     padding-left: 20px;
 }
@@ -63,6 +69,11 @@ ul li {
     margin-bottom: 10px;
 }
 
+ul li a.active {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
 /* Footer Styling */
 footer {
     background-color: #343a40;

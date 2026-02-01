@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.core.files.storage import default_storage
 from .models import Document, Query, File
+from .text_processing import text_processing
 import os
 import json
 import sys
@@ -21,11 +22,9 @@ load_dotenv()
 
 # Tentar importar LangChain com fallback
 try:
-    from langchain_text_splitters import RecursiveCharacterTextSplitter
     from langchain_openai import OpenAIEmbeddings, ChatOpenAI
     from langchain_community.document_loaders import PyPDFLoader
     from langchain_community.vectorstores import Qdrant
-    from langchain_community.document_loaders import DataFrameLoader
     import pandas as pd
     LANGCHAIN_AVAILABLE = True
 except ImportError as e:
@@ -86,32 +85,6 @@ def extract_pdf_text(file_path):
         return "\n\n".join(text_content)
     except Exception as e:
         raise Exception(f"Erro ao extrair PDF com LangChain: {str(e)}")
-
-
-def split_text_into_chunks(text, chunk_size=1000, overlap=200):
-    """Divide texto em chunks com overlap usando LangChain ou fallback"""
-    if not LANGCHAIN_AVAILABLE:
-        # Fallback simples
-        chunks = []
-        start = 0
-        while start < len(text):
-            end = start + chunk_size
-            chunk = text[start:end]
-            chunks.append(chunk)
-            start = end - overlap
-        return chunks
-    
-    try:
-        splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size,
-            chunk_overlap=overlap,
-            separators=["\n\n", "\n", " ", ""]
-        )
-        chunks = splitter.split_text(text)
-        return chunks
-    except Exception as e:
-        raise Exception(f"Erro ao dividir texto: {str(e)}")
-
 
 def get_embeddings():
     """Retorna instância do OpenAI Embeddings via LangChain"""
@@ -356,7 +329,6 @@ Pergunta: {query}"""
 # Instância global do RAG Manager
 rag_manager = RAGManager()
 
-
 def vectorize_text(text):
     """Vetoriza um texto usando OpenAI embeddings"""
     try:
@@ -370,6 +342,29 @@ def vectorize_text(text):
         # Retornar vetor vazio para não quebrar o processamento
         return []
 
+def get_chunks(text, chunk_size=1000, overlap=200):
+    """Divide o texto em chunks com tamanho e overlap especificados"""
+    if not text:
+        return []
+    
+    normalized = text_processing(text)
+    
+    words = normalized
+    chunks = []
+    start = 0
+    text_length = len(words)
+    
+    while start < text_length:
+        end = min(start + chunk_size, text_length)
+        chunk = " ".join(words[start:end])
+        chunks.append(chunk)
+        
+        if end == text_length:
+            break
+        
+        start += chunk_size - overlap
+    
+    return chunks
 
 def process_pdf_file(uploaded_file):
     """Processa arquivo PDF: extrai texto, cria chunks, vetoriza e salva no banco
@@ -402,7 +397,7 @@ def process_pdf_file(uploaded_file):
         
         try:
             # Dividir em chunks usando LangChain
-            chunks = split_text_into_chunks(pdf_text, chunk_size=1000, overlap=200)
+            chunks = get_chunks(pdf_text, chunk_size=1000, overlap=200)
         except Exception as e:
             return {
                 'status': 'error',
@@ -498,7 +493,6 @@ def process_pdf_file(uploaded_file):
             'error': f"Erro ao processar PDF: {str(e)}"
         }
 
-
 def handle_pdf_upload(request):
     """View handler para upload de PDF via requisição POST
     
@@ -524,7 +518,6 @@ def handle_pdf_upload(request):
         'status': 'error',
         'error': 'Invalid request'
     }, status=400)
-
 
 @csrf_exempt
 def index(request):
@@ -635,7 +628,6 @@ def index(request):
         'documents': documents
     }
     return render(request, 'rag.html', context)
-
 
 @csrf_exempt
 def query_api(request):
