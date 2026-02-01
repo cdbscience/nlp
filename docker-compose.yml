@@ -6,6 +6,8 @@ services:
     command: ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
     volumes:
       - .:/app
+    networks:
+      - ghost_ghost_network
     env_file:
       - .env
     ports:
